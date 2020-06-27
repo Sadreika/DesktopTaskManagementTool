@@ -1,0 +1,9 @@
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\bin\Debug\ManagementTool.exe.config
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\bin\Debug\ManagementTool.exe
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\bin\Debug\ManagementTool.pdb
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.csprojAssemblyReference.cache
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.Properties.Resources.resources
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.csproj.GenerateResource.cache
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.csproj.CoreCompileInputs.cache
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.exe
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.pdb
