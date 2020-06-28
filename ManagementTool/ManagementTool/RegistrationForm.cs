@@ -38,7 +38,7 @@ namespace ManagementTool
                     {
                         try
                         {
-                            cmd.Parameters.AddWithValue("@id", id + 1);
+                            cmd.Parameters.AddWithValue("@id", (Int16.Parse(id) + 1).ToString());
                             cmd.Parameters.AddWithValue("@username", username);
                             cmd.Parameters.AddWithValue("@password", password);
                             cmd.Parameters.AddWithValue("@email", email);
@@ -46,6 +46,7 @@ namespace ManagementTool
 
                             cmd.CommandText = "INSERT [ManagementToolDatabase].[dbo].[UserRegistrationTable] (id, username, password, email, isActive)" +
                                 " VALUES (@id, @username, @password, @email, @isActive)";
+                            cmd.ExecuteNonQuery();
                             MessageBox.Show("Registration completed");
                             this.Hide();
                             Login login = new Login();
