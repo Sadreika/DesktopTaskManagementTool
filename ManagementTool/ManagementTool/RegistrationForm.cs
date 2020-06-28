@@ -24,7 +24,7 @@ namespace ManagementTool
             try
             {
                 bool usernameAndPasswordCorrectLenght = true;
-                con.Open();
+                
                 System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Connection = con;
@@ -56,8 +56,8 @@ namespace ManagementTool
                     MessageBox.Show("Wrong email type");
                     usernameAndPasswordCorrectLenght = false;
                 }
-
-                if(usernameAndPasswordCorrectLenght.Equals(true))
+                con.Open();
+                if (usernameAndPasswordCorrectLenght.Equals(true))
                 {
                     if (seachingIfSameValueExists("username", username).Equals(false))
                     {
