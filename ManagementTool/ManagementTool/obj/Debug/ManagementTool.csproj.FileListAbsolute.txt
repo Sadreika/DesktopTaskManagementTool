@@ -7,3 +7,4 @@ C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\Managem
 C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.csproj.CoreCompileInputs.cache
 C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.exe
 C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.pdb
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.Login.resources
