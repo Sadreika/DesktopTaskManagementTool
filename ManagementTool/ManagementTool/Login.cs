@@ -38,7 +38,11 @@ namespace ManagementTool
                     cmd.CommandText = "SELECT isActive FROM [ManagementToolDatabase].[dbo].[UserRegistrationTable]" +
                         " WHERE username = @username AND @password = password";
                     string isActive = cmd.ExecuteScalar().ToString();
-                    MessageBox.Show(isActive);
+                    if(isActive == "active")
+                    {
+                        ManagementToolDesktop mainWindow = new ManagementToolDesktop();
+                        mainWindow.Show();
+                    }
                 }
                 catch (Exception)
                 {
