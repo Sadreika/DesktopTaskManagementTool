@@ -53,7 +53,7 @@ namespace ManagementTool
 
         private void registrationButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             RegistrationForm registrationForm = new RegistrationForm();
             registrationForm.ShowDialog();
         }
