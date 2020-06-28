@@ -46,6 +46,10 @@ namespace ManagementTool
 
                             cmd.CommandText = "INSERT [ManagementToolDatabase].[dbo].[UserRegistrationTable] (id, username, password, email, isActive)" +
                                 " VALUES (@id, @username, @password, @email, @isActive)";
+                            MessageBox.Show("Registration completed");
+                            this.Hide();
+                            Login login = new Login();
+                            login.Show();
                         }
                         catch (Exception)
                         {
@@ -70,7 +74,7 @@ namespace ManagementTool
         }
         public bool seachingIfSameValueExists(string whichColumnToCheck, string givenValue)
         {
-            bool doesExist = false;
+            bool doesExist = true;
             SqlConnection con = new SqlConnection(connectionString);
             try
             {
@@ -78,28 +82,20 @@ namespace ManagementTool
                 System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Connection = con;
+                cmd.Parameters.AddWithValue("@" + whichColumnToCheck, givenValue);
+                cmd.CommandText = "SELECT isActive FROM [ManagementToolDatabase].[dbo].[UserRegistrationTable]" +
+                        " WHERE " + whichColumnToCheck + " = @" + whichColumnToCheck;
                 try
                 {
-                    cmd.Parameters.AddWithValue("@" + whichColumnToCheck, givenValue);
-                    cmd.CommandText = "SELECT isActive FROM [ManagementToolDatabase].[dbo].[UserRegistrationTable]" +
-                        " WHERE " + whichColumnToCheck + " = @" + whichColumnToCheck;
-                    try
+                    string isActive = cmd.ExecuteScalar().ToString();
+                    if (isActive.Equals(true) || isActive.Equals(false))
                     {
-                        string isActive = cmd.ExecuteScalar().ToString();
-
-                        if (isActive.Equals(true) || isActive.Equals(false))
-                        {
-                            doesExist = true;
-                        }
-                    }
-                    catch(Exception)
-                    {
-
+                        doesExist = true;
                     }
                 }
                 catch(Exception)
                 {
-                    MessageBox.Show("Can't check value");
+                    doesExist = false;
                 }
                 con.Close();
             }
