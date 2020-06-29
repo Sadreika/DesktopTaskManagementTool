@@ -83,11 +83,33 @@ namespace ManagementTool
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Connection = con;
             con.Open();
+            
             cmd.CommandText = "SELECT MAX(taskId) FROM [ManagementToolDatabase].[dbo].[OpenTasks]";
-            string id = cmd.ExecuteScalar().ToString();
-            if (id.Equals(""))
+            string idOpenTable = cmd.ExecuteScalar().ToString();
+            string id = idOpenTable;
+            if(id.Equals(""))
             {
                 id = "0";
+            }
+            cmd.CommandText = "SELECT MAX(taskId) FROM [ManagementToolDatabase].[dbo].[InProgressTasks]";
+            string idProgressTable = cmd.ExecuteScalar().ToString();
+            if(idProgressTable.Equals(""))
+            {
+                idProgressTable = "0";
+            }
+            if(Int16.Parse(id) < Int16.Parse(idProgressTable))
+            {
+                id = idProgressTable;
+            }
+            cmd.CommandText = "SELECT MAX(taskId) FROM [ManagementToolDatabase].[dbo].[ClosedTasks]";
+            string idClosedTable = cmd.ExecuteScalar().ToString();
+            if(idClosedTable.Equals(""))
+            {
+                idClosedTable = "0";
+            }
+            if(Int16.Parse(id) < Int16.Parse(idClosedTable))
+            {
+                id = idClosedTable;
             }
             con.Close();
             return id;
