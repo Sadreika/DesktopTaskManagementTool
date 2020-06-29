@@ -17,9 +17,10 @@ namespace ManagementTool
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void addTaskButton_Click(object sender, EventArgs e)
         {
-
+            TaskCreateForm taskCreation = new TaskCreateForm();
+            taskCreation.Show();
         }
     }
 }
