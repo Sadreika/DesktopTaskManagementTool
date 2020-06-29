@@ -62,8 +62,6 @@ namespace ManagementTool
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Task created");
                         this.Hide();
-                        ManagementToolDesktop mainWindow = new ManagementToolDesktop();
-                        mainWindow.Show();
                     }
                     catch (Exception)
                     {
