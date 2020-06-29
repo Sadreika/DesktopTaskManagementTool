@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ManagementTool
 {
-    public partial class TaskCreateForm : Form
+    public partial class TaskCreateForm : Form 
     {
         public TaskCreateForm()
         {
