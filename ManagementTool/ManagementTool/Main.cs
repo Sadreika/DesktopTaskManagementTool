@@ -109,11 +109,16 @@ namespace ManagementTool
 
         private void movingToTasksInProgressbutton_Click(object sender, EventArgs e)
         {
+            transferingDataFromFirstTableToSecond("[ManagementToolDatabase].[dbo].[OpenTasks]", "[ManagementToolDatabase].[dbo].[InProgressTasks]");
+        }
+        
+        public void transferingDataFromFirstTableToSecond(string fromWhichTable, string toWhichTable)
+        {
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM [ManagementToolDatabase].[dbo].[OpenTasks] WHERE taskId = @id", con);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM " + fromWhichTable + " WHERE taskId = @id", con);
                 cmd.Parameters.AddWithValue("@id", columnId);
                 SqlDataReader dataReader = cmd.ExecuteReader();
                 string taskName = "";
@@ -129,10 +134,10 @@ namespace ManagementTool
                     recurring = (dataReader["recurring"].ToString());
                     timeSpentOnTask = (dataReader["timeSpentOnTask"].ToString());
                 }
-                bool success = addingDataToProgressTable(columnId, taskName, taskDescription, status, recurring, timeSpentOnTask);
-                if(success.Equals(true))
+                bool success = addingDataToTable(columnId, taskName, taskDescription, status, recurring, timeSpentOnTask, toWhichTable);
+                if (success.Equals(true))
                 {
-                    deletingDataFromOpenTaskTable(columnId, taskName);
+                    deletingDataFromTable(columnId, taskName, fromWhichTable);
                 }
             }
             catch (Exception)
@@ -142,7 +147,7 @@ namespace ManagementTool
             con.Close();
         }
 
-        public void deletingDataFromOpenTaskTable(string columnId, string taskName)
+        public void deletingDataFromTable(string columnId, string taskName, string whichTable)
         {
             try
             {
@@ -156,7 +161,7 @@ namespace ManagementTool
                     cmd.Parameters.AddWithValue("@taskId", (Int16.Parse(columnId)).ToString());
                     cmd.Parameters.AddWithValue("@taskName", taskName);
                   
-                    cmd.CommandText = "DELETE FROM [ManagementToolDatabase].[dbo].[OpenTasks] WHERE taskId = @taskId AND taskName = @taskName";
+                    cmd.CommandText = "DELETE FROM " + whichTable + " WHERE taskId = @taskId AND taskName = @taskName";
                     cmd.ExecuteNonQuery();
                     fillingTable();
                 }
@@ -172,7 +177,7 @@ namespace ManagementTool
             }
         }
 
-        public bool addingDataToProgressTable(string columnId, string taskName, string taskDescription, string status, string recurring, string timeSpentOnTask)
+        public bool addingDataToTable(string columnId, string taskName, string taskDescription, string status, string recurring, string timeSpentOnTask, string whichTableToUpdate)
         {
             bool success = false;
             try
@@ -191,7 +196,7 @@ namespace ManagementTool
                     cmd.Parameters.AddWithValue("@recurring", recurring);
                     cmd.Parameters.AddWithValue("@timeSpentOnTask", timeSpentOnTask);
 
-                    cmd.CommandText = "INSERT [ManagementToolDatabase].[dbo].[InProgressTasks] (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask)" +
+                    cmd.CommandText = "INSERT " + whichTableToUpdate + " (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask)" +
                         " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask)";
                     cmd.ExecuteNonQuery();
                     success = true;
@@ -199,7 +204,7 @@ namespace ManagementTool
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("error");
+                    MessageBox.Show("Can not add data");
                 }
                 con.Close();
             } catch(Exception)
@@ -212,17 +217,17 @@ namespace ManagementTool
 
         private void movingToOpenTasksButton_Click(object sender, EventArgs e)
         {
-
+            transferingDataFromFirstTableToSecond("[ManagementToolDatabase].[dbo].[InProgressTasks]", "[ManagementToolDatabase].[dbo].[OpenTasks]");
         }
 
         private void movingToClosedTaskButton_Click(object sender, EventArgs e)
         {
-
+            transferingDataFromFirstTableToSecond("[ManagementToolDatabase].[dbo].[InProgressTasks]", "[ManagementToolDatabase].[dbo].[ClosedTasks]");
         }
 
         private void movingFromClosedToTasksInPorgressButton_Click(object sender, EventArgs e)
         {
-
+            transferingDataFromFirstTableToSecond("[ManagementToolDatabase].[dbo].[ClosedTasks]", "[ManagementToolDatabase].[dbo].[InProgressTasks]");
         }
 
         private void openDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
