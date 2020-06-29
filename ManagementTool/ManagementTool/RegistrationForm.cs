@@ -28,7 +28,7 @@ namespace ManagementTool
                 System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Connection = con;
-                string id = searchingForMaxId();
+                string id = searchingForMaxId(); //
                 string username = usernameTextbox.Text.ToString();
                 if(username.Length < 3)
                 {
