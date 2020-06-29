@@ -129,8 +129,11 @@ namespace ManagementTool
                     recurring = (dataReader["recurring"].ToString());
                     timeSpentOnTask = (dataReader["timeSpentOnTask"].ToString());
                 }
-                addingDataToProgressTable(columnId, taskName, taskDescription, status, recurring, timeSpentOnTask);
-
+                bool success = addingDataToProgressTable(columnId, taskName, taskDescription, status, recurring, timeSpentOnTask);
+                if(success.Equals(true))
+                {
+                    deletingDataFromOpenTaskTable(columnId, taskName);
+                }
             }
             catch (Exception)
             {
@@ -139,31 +142,72 @@ namespace ManagementTool
             con.Close();
         }
 
-        public void addingDataToProgressTable(string columnId, string taskName, string taskDescription, string status, string recurring, string timeSpentOnTask)
+        public void deletingDataFromOpenTaskTable(string columnId, string taskName)
         {
-            SqlConnection con = new SqlConnection(connectionString);
-            System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
-            cmd.CommandType = System.Data.CommandType.Text;
-            cmd.Connection = con;
-            con.Open();
             try
             {
-                cmd.Parameters.AddWithValue("@taskId", (Int16.Parse(columnId)).ToString());
-                cmd.Parameters.AddWithValue("@taskName", taskName);
-                cmd.Parameters.AddWithValue("@taskDescription", taskDescription);
-                cmd.Parameters.AddWithValue("@status", status);
-                cmd.Parameters.AddWithValue("@recurring", recurring);
-                cmd.Parameters.AddWithValue("@timeSpentOnTask", timeSpentOnTask);
+                SqlConnection con = new SqlConnection(connectionString);
+                System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Connection = con;
+                con.Open();
+                try
+                {
+                    cmd.Parameters.AddWithValue("@taskId", (Int16.Parse(columnId)).ToString());
+                    cmd.Parameters.AddWithValue("@taskName", taskName);
+                  
+                    cmd.CommandText = "DELETE FROM [ManagementToolDatabase].[dbo].[OpenTasks] WHERE taskId = @taskId AND taskName = @taskName";
+                    cmd.ExecuteNonQuery();
+                    fillingTable();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Can not delete");
+                }
+                con.Close();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Cant connect to database");
+            }
+        }
 
-                cmd.CommandText = "INSERT [ManagementToolDatabase].[dbo].[InProgressTasks] (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask)" +
-                    " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask)";
-                cmd.ExecuteNonQuery();
-                fillingTable();
+        public bool addingDataToProgressTable(string columnId, string taskName, string taskDescription, string status, string recurring, string timeSpentOnTask)
+        {
+            bool success = false;
+            try
+            {
+                SqlConnection con = new SqlConnection(connectionString);
+                System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Connection = con;
+                con.Open();
+                try
+                {
+                    cmd.Parameters.AddWithValue("@taskId", (Int16.Parse(columnId)).ToString());
+                    cmd.Parameters.AddWithValue("@taskName", taskName);
+                    cmd.Parameters.AddWithValue("@taskDescription", taskDescription);
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.Parameters.AddWithValue("@recurring", recurring);
+                    cmd.Parameters.AddWithValue("@timeSpentOnTask", timeSpentOnTask);
+
+                    cmd.CommandText = "INSERT [ManagementToolDatabase].[dbo].[InProgressTasks] (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask)" +
+                        " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask)";
+                    cmd.ExecuteNonQuery();
+                    success = true;
+                    fillingTable();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("error");
+                }
+                con.Close();
             } catch(Exception)
             {
-                MessageBox.Show("error");
+                MessageBox.Show("Cant connect to database");
             }
-            con.Close();
+
+            return success;
         }
 
         private void movingToOpenTasksButton_Click(object sender, EventArgs e)
@@ -199,6 +243,11 @@ namespace ManagementTool
         private void ManagementToolDesktop_Activated(object sender, EventArgs e)
         {
             fillingTable();
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
