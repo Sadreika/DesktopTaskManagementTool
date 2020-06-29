@@ -46,5 +46,10 @@ namespace ManagementTool
             TaskCreateForm taskCreation = new TaskCreateForm();
             taskCreation.Show();
         }
+
+        private void ManagementToolDesktop_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
