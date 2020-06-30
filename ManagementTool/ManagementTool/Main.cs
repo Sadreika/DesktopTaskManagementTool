@@ -139,6 +139,13 @@ namespace ManagementTool
                 {
                     deletingDataFromTable(columnId, taskName, fromWhichTable);
                 }
+                if(recurring.Trim().Equals("true") && toWhichTable.Equals("[ManagementToolDatabase].[dbo].[ClosedTasks]"))
+                {
+                    TaskCreateForm taskCreateForm = new TaskCreateForm();
+                    string id = taskCreateForm.searchingForMaxId();
+                    id = (Int16.Parse(id) + 1).ToString();
+                    addingDataToTable(id, taskName, taskDescription, "open", "true", "0", "[ManagementToolDatabase].[dbo].[OpenTasks]");
+                }
             }
             catch (Exception)
             {
@@ -160,14 +167,20 @@ namespace ManagementTool
                 {
                     cmd.Parameters.AddWithValue("@taskId", (Int16.Parse(columnId)).ToString());
                     cmd.Parameters.AddWithValue("@taskName", taskName);
-                  
-                    cmd.CommandText = "DELETE FROM " + whichTable + " WHERE taskId = @taskId AND taskName = @taskName";
+                    if (taskName.Equals("notgiven"))
+                    {
+                        cmd.CommandText = "DELETE FROM " + whichTable + " WHERE taskId = @taskId";
+                    }
+                    else
+                    {
+                        cmd.CommandText = "DELETE FROM " + whichTable + " WHERE taskId = @taskId AND taskName = @taskName";
+                    }
                     cmd.ExecuteNonQuery();
                     fillingTable();
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Can not delete");
+                   
                 }
                 con.Close();
             }
@@ -187,24 +200,27 @@ namespace ManagementTool
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Connection = con;
                 con.Open();
-                try
+                if(!taskName.Equals(""))
                 {
-                    cmd.Parameters.AddWithValue("@taskId", (Int16.Parse(columnId)).ToString());
-                    cmd.Parameters.AddWithValue("@taskName", taskName);
-                    cmd.Parameters.AddWithValue("@taskDescription", taskDescription);
-                    cmd.Parameters.AddWithValue("@status", status);
-                    cmd.Parameters.AddWithValue("@recurring", recurring);
-                    cmd.Parameters.AddWithValue("@timeSpentOnTask", timeSpentOnTask);
+                    try
+                    {
+                        cmd.Parameters.AddWithValue("@taskId", (Int16.Parse(columnId)).ToString());
+                        cmd.Parameters.AddWithValue("@taskName", taskName);
+                        cmd.Parameters.AddWithValue("@taskDescription", taskDescription);
+                        cmd.Parameters.AddWithValue("@status", status);
+                        cmd.Parameters.AddWithValue("@recurring", recurring);
+                        cmd.Parameters.AddWithValue("@timeSpentOnTask", timeSpentOnTask);
 
-                    cmd.CommandText = "INSERT " + whichTableToUpdate + " (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask)" +
-                        " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask)";
-                    cmd.ExecuteNonQuery();
-                    success = true;
-                    fillingTable();
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Can not add data");
+                        cmd.CommandText = "INSERT " + whichTableToUpdate + " (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask)" +
+                            " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask)";
+                        cmd.ExecuteNonQuery();
+                        success = true;
+                        fillingTable();
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Can not add data");
+                    }
                 }
                 con.Close();
             } catch(Exception)
@@ -252,7 +268,15 @@ namespace ManagementTool
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
+            deletingDataFromTable(columnId, "notgiven", "[ManagementToolDatabase].[dbo].[OpenTasks]");
+            deletingDataFromTable(columnId, "notgiven", "[ManagementToolDatabase].[dbo].[InProgressTasks]");
+            deletingDataFromTable(columnId, "notgiven", "[ManagementToolDatabase].[dbo].[ClosedTasks]");
+        }
 
+        private void showTaskButton_Click(object sender, EventArgs e)
+        {
+            TaskInfoForm taskInfoForm = new TaskInfoForm(columnId);
+            taskInfoForm.Show();
         }
     }
 }

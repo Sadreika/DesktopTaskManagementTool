@@ -17,7 +17,7 @@
         {
             this.addTaskButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.showTaskButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -61,15 +61,16 @@
             this.deleteButton.UseVisualStyleBackColor = true;
             this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
-            // button3
+            // showTaskButton
             // 
-            this.button3.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(177, 22);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(105, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Show task";
-            this.button3.UseVisualStyleBackColor = true;
+            this.showTaskButton.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.showTaskButton.Location = new System.Drawing.Point(177, 22);
+            this.showTaskButton.Name = "showTaskButton";
+            this.showTaskButton.Size = new System.Drawing.Size(105, 23);
+            this.showTaskButton.TabIndex = 2;
+            this.showTaskButton.Text = "Show task";
+            this.showTaskButton.UseVisualStyleBackColor = true;
+            this.showTaskButton.Click += new System.EventHandler(this.showTaskButton_Click);
             // 
             // label1
             // 
@@ -255,7 +256,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.showTaskButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.addTaskButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -273,7 +274,7 @@
 
         private System.Windows.Forms.Button addTaskButton;
         private System.Windows.Forms.Button deleteButton;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button showTaskButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

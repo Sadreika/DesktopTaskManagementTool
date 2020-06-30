@@ -11,3 +11,4 @@ C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\Managem
 C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.RegistrationForm.resources
 C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.ManagementToolDesktop.resources
 C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.TaskCreateForm.resources
+C:\Users\mariu\Documents\GitHub\DesktopTaskManagementTool\ManagementTool\ManagementTool\obj\Debug\ManagementTool.TaskInfoForm.resources
