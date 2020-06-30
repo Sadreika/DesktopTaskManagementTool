@@ -72,6 +72,12 @@
     <Compile Include="TaskCreateForm.Designer.cs">
       <DependentUpon>TaskCreateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskInfoForm.Designer.cs">
+      <DependentUpon>TaskInfoForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -92,6 +98,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TaskCreateForm.resx">
       <DependentUpon>TaskCreateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskInfoForm.resx">
+      <DependentUpon>TaskInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

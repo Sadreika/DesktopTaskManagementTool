@@ -139,6 +139,13 @@ namespace ManagementTool
                 {
                     deletingDataFromTable(columnId, taskName, fromWhichTable);
                 }
+                if(recurring.Trim().Equals("true") && toWhichTable.Equals("[ManagementToolDatabase].[dbo].[ClosedTasks]"))
+                {
+                    TaskCreateForm taskCreateForm = new TaskCreateForm();
+                    string id = taskCreateForm.searchingForMaxId();
+                    id = (Int16.Parse(id) + 1).ToString();
+                    addingDataToTable(id, taskName, taskDescription, "open", "true", "0", "[ManagementToolDatabase].[dbo].[OpenTasks]");
+                }
             }
             catch (Exception)
             {
@@ -264,6 +271,12 @@ namespace ManagementTool
             deletingDataFromTable(columnId, "notgiven", "[ManagementToolDatabase].[dbo].[OpenTasks]");
             deletingDataFromTable(columnId, "notgiven", "[ManagementToolDatabase].[dbo].[InProgressTasks]");
             deletingDataFromTable(columnId, "notgiven", "[ManagementToolDatabase].[dbo].[ClosedTasks]");
+        }
+
+        private void showTaskButton_Click(object sender, EventArgs e)
+        {
+            TaskInfoForm taskInfoForm = new TaskInfoForm(columnId);
+            taskInfoForm.Show();
         }
     }
 }
