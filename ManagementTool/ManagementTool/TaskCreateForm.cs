@@ -13,9 +13,16 @@ namespace ManagementTool
 {
     public partial class TaskCreateForm : Form 
     {
-        public TaskCreateForm()
+        public TaskCreateForm(string userId)
         {
             InitializeComponent();
+            settingUserId(userId);
+        }
+
+        public string userId = "";
+        public void settingUserId(string id)
+        {
+            userId = id;
         }
         public string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=ManagementToolDatabase;Integrated Security=True";
         private void createButton_Click(object sender, EventArgs e)
@@ -56,9 +63,10 @@ namespace ManagementTool
                         cmd.Parameters.AddWithValue("@status", "open");
                         cmd.Parameters.AddWithValue("@recurring", isChecked);
                         cmd.Parameters.AddWithValue("@timeSpentOnTask", "0");
+                        cmd.Parameters.AddWithValue("@userId", userId);
 
-                        cmd.CommandText = "INSERT [ManagementToolDatabase].[dbo].[OpenTasks] (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask)" +
-                            " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask)";
+                        cmd.CommandText = "INSERT [ManagementToolDatabase].[dbo].[OpenTasks] (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask, userId)" +
+                            " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask, @userId)";
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Task created");
                         this.Hide();
