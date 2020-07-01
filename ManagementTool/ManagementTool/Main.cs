@@ -219,9 +219,10 @@ namespace ManagementTool
                         cmd.Parameters.AddWithValue("@status", status);
                         cmd.Parameters.AddWithValue("@recurring", recurring);
                         cmd.Parameters.AddWithValue("@timeSpentOnTask", timeSpentOnTask);
+                        cmd.Parameters.AddWithValue("@userId", userId);
 
-                        cmd.CommandText = "INSERT " + whichTableToUpdate + " (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask)" +
-                            " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask)";
+                        cmd.CommandText = "INSERT " + whichTableToUpdate + " (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask, userId)" +
+                            " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask, @userId)";
                         cmd.ExecuteNonQuery();
                         success = true;
                         fillingTable();
