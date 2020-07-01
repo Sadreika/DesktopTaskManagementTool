@@ -13,14 +13,23 @@ namespace ManagementTool
 {
     public partial class ManagementToolDesktop : Form
     {
-
-        public ManagementToolDesktop()
+        public string userId = " ";
+        public ManagementToolDesktop(string userId)
         {
             InitializeComponent();
+            settingUserId(userId);
             fillingTable();
         }
+
+        public void settingUserId(string id)
+        {
+            userId = id;
+        }
+
         public string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=ManagementToolDatabase;Integrated Security=True";
         public string columnId = "";
+
+        
         public void setIdOfColumn(string id)
         {
             columnId = id;
@@ -29,17 +38,17 @@ namespace ManagementTool
         {
             SqlConnection con = new SqlConnection(connectionString);
             con.Open();
-            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT taskId, taskName FROM [ManagementToolDatabase].[dbo].[OpenTasks]", con);
+            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT taskId, taskName FROM [ManagementToolDatabase].[dbo].[OpenTasks] WHERE userId = " + userId, con);
             DataTable data = new DataTable();
             sqlData.Fill(data);
             openDataGridView.DataSource = data;
 
-            SqlDataAdapter sqlDataForSecondGrid = new SqlDataAdapter("SELECT  taskId, taskName FROM [ManagementToolDatabase].[dbo].[InProgressTasks]", con);
+            SqlDataAdapter sqlDataForSecondGrid = new SqlDataAdapter("SELECT  taskId, taskName FROM [ManagementToolDatabase].[dbo].[InProgressTasks] WHERE userId = " + userId, con);
             DataTable dataForSecondGrid = new DataTable();
             sqlDataForSecondGrid.Fill(dataForSecondGrid);
             inProgressDataGridView.DataSource = dataForSecondGrid;
 
-            SqlDataAdapter sqlDataForThirdGrid = new SqlDataAdapter("SELECT  taskId, taskName FROM [ManagementToolDatabase].[dbo].[ClosedTasks]", con);
+            SqlDataAdapter sqlDataForThirdGrid = new SqlDataAdapter("SELECT  taskId, taskName FROM [ManagementToolDatabase].[dbo].[ClosedTasks] WHERE userId = " + userId, con);
             DataTable dataForThirdGrid = new DataTable();
             sqlDataForThirdGrid.Fill(dataForThirdGrid);
             closedDataGridView.DataSource = dataForThirdGrid;
@@ -49,7 +58,7 @@ namespace ManagementTool
         }
         private void addTaskButton_Click(object sender, EventArgs e)
         {
-            TaskCreateForm taskCreation = new TaskCreateForm();
+            TaskCreateForm taskCreation = new TaskCreateForm(userId);
             taskCreation.Show();
         }
 
@@ -141,7 +150,7 @@ namespace ManagementTool
                 }
                 if(recurring.Trim().Equals("true") && toWhichTable.Equals("[ManagementToolDatabase].[dbo].[ClosedTasks]"))
                 {
-                    TaskCreateForm taskCreateForm = new TaskCreateForm();
+                    TaskCreateForm taskCreateForm = new TaskCreateForm(userId);
                     string id = taskCreateForm.searchingForMaxId();
                     id = (Int16.Parse(id) + 1).ToString();
                     addingDataToTable(id, taskName, taskDescription, "open", "true", "0", "[ManagementToolDatabase].[dbo].[OpenTasks]");
@@ -210,9 +219,10 @@ namespace ManagementTool
                         cmd.Parameters.AddWithValue("@status", status);
                         cmd.Parameters.AddWithValue("@recurring", recurring);
                         cmd.Parameters.AddWithValue("@timeSpentOnTask", timeSpentOnTask);
+                        cmd.Parameters.AddWithValue("@userId", userId);
 
-                        cmd.CommandText = "INSERT " + whichTableToUpdate + " (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask)" +
-                            " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask)";
+                        cmd.CommandText = "INSERT " + whichTableToUpdate + " (taskId, taskName, taskDescription, status, recurring, timeSpentOnTask, userId)" +
+                            " VALUES (@taskId, @taskName, @taskDescription, @status, @recurring, @timeSpentOnTask, @userId)";
                         cmd.ExecuteNonQuery();
                         success = true;
                         fillingTable();
